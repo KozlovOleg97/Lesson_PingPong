@@ -7,23 +7,45 @@ using System.Threading.Tasks;
 namespace PingPong
 {
 
-    public delegate void PingHandler(string message);
+    public delegate void PingHandler();
     internal class Ping
     {
-        public event PingHandler? onReadPing;
+        public PingHandler Handler;
+        public Ping()
+        {
+            
+        }
+
         public void Pong()
         {
-            onReadPing?.Invoke($"Ping received Pong");
+            Console.WriteLine("Ping received Pong");
+            Handler.Invoke();
+        }
+
+        public void SubscribeToPong(PingHandler handler)
+        {
+            Handler = handler;
         }
     }
 
 
     internal class Pong 
     {
-        public event PingHandler? onReadPong;
+        public PingHandler Handler;
+        public Pong()
+        {
+           
+        }
+        
         public void Ping()
         {
-            onReadPong?.Invoke($"Pong received Ping");
+            Console.WriteLine("Pong received Ping");
+            Handler.Invoke();
+        }
+
+        public void SubscribeToPing(PingHandler handler)
+        {
+            Handler = handler;
         }
     }
 }
